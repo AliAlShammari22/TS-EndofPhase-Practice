@@ -16,16 +16,29 @@ Your goal is to write functions that interact with this data.
  * 2. name of type string
  * 3. category of type string
  * 4. price of type number
- * 
+ *
  * *************/
 
 // ✅ Sample data to test your functions
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+}
+
 const products: Product[] = [
-    { id: 201, name: "Laptop", category: "Electronics", price: 999.99 },
-    { id: 202, name: "T-shirt", category: "Clothing", price: 19.99 },
-    { id: 203, name: "Coffee Maker", category: "Kitchen Appliances", price: 79.99 },
-    { id: 204, name: "Running Shoes", category: "Footwear", price: 59.99 },
-    { id: 205, name: "Bookshelf", category: "Furniture", price: 149.99 },
+  { id: 201, name: "Laptop", category: "Electronics", price: 999.99 },
+  { id: 202, name: "T-shirt", category: "Clothing", price: 19.99 },
+  {
+    id: 203,
+    name: "Coffee Maker",
+    category: "Kitchen Appliances",
+    price: 79.99,
+  },
+  { id: 204, name: "Running Shoes", category: "Footwear", price: 59.99 },
+  { id: 205, name: "Bookshelf", category: "Furniture", price: 149.99 },
 ];
 
 /**************************************************************
@@ -35,7 +48,11 @@ Create a function `getProductName` that:
 - Returns the name of the product
 **************************************************************/
 
-// console.log(getProductName(products[0])); // "Laptop"
+function getProductName(products: Product): string {
+  return products.name;
+}
+
+console.log("Q1", getProductName(products[0])); // "Laptop"
 
 /**************************************************************
 ✅ Question 2:
@@ -44,7 +61,14 @@ Create a function `isProductCategoryMatching` that:
 - Returns `true` if the product’s category matches the given category
 **************************************************************/
 
-// console.log(isProductCategoryMatching(products[1], "Clothing")); // true
+function isProductCategoryMatching(
+  product: Product,
+  category: string
+): boolean {
+  return product.category === category;
+}
+
+console.log("Q2", isProductCategoryMatching(products[1], "Clothing")); // true
 
 /**************************************************************
 ✅ Question 3:
@@ -53,8 +77,18 @@ Create a function `addProduct` that:
 - Adds the product to the array and returns the updated array
 **************************************************************/
 
-// const newProduct: Product = { id: 206, name: "Headphones", category: "Electronics", price: 149.99 };
-// console.log(addProduct(products, newProduct));
+function addProduct(products: Product[], newProduct: Product): Product[] {
+  products.push(newProduct);
+  return products;
+}
+
+const newProduct: Product = {
+  id: 206,
+  name: "Headphones",
+  category: "Electronics",
+  price: 149.99,
+};
+console.log("Q3", addProduct(products, newProduct));
 
 /**************************************************************
 ✅ Question 4:
@@ -63,7 +97,13 @@ Create a function `countElectronicsProducts` that:
 - Returns the number of products in the "Electronics" category
 **************************************************************/
 
-// console.log(countElectronicsProducts(products));
+function countElectronicsProducts(products: Product[]): number {
+  //   let Electronics = product.category;
+  return products.filter((product) => product.category === "Electronics")
+    .length;
+}
+
+console.log("Q4", countElectronicsProducts(products));
 
 /**************************************************************
 ✅ Question 5: 🌶️
@@ -72,7 +112,17 @@ Create a function `listProductNamesByCategory` that:
 - Returns an array of product names that match the category
 **************************************************************/
 
-// console.log(listProductNamesByCategory(products, "Electronics"));
+function listProductNamesByCategory(
+  products: Product[],
+  category: string
+): string[] {
+  //   let newArray = products.filter((product) => product.category === category);
+  return products
+    .filter((product) => product.category === category)
+    .map((product) => product.name);
+}
+
+console.log("Q5", listProductNamesByCategory(products, "Electronics"));
 
 /**************************************************************
 ✅ Question 6: 🌶️🌶️
@@ -80,8 +130,17 @@ Create a function `getCheapestProduct` that:
 - Accepts an array of products
 - Returns the product object with the lowest price
 **************************************************************/
+function getCheapestProduct(products: Product[]): Product {
+  let lowest = products[0];
+  for (const p of products) {
+    if (p.price < lowest.price) {
+      lowest = p;
+    }
+  }
+  return lowest;
+}
 
-// console.log(getCheapestProduct(products));
+console.log("Q6", getCheapestProduct(products));
 
 /**************************************************************
 ✅ Question 7:
@@ -91,7 +150,10 @@ Create a function `removeProductById` that:
 - Returns the updated array
 **************************************************************/
 
-// console.log(removeProductById(products, 202));
+function removeProductById(products: Product[], productId: number): Product[] {
+  return products.filter((product) => product.id !== productId);
+}
+console.log("Q7", removeProductById(products, 201));
 
 /**************************************************************
 ✅ Question 8: 🌶️🌶️🌶️
@@ -100,4 +162,15 @@ Create a function `getProductsByPriceRange` that:
 - Returns an array of products within that price range (inclusive)
 **************************************************************/
 
-// console.log(getProductsByPriceRange(products, 19.99, 59.99));
+function getProductsByPriceRange(
+  products: Product[],
+  min: number,
+  max: number
+): Product[] {
+  let range = products.filter((product) => {
+    if (product.price >= min && product.price <= max) return true;
+  });
+  return range;
+}
+
+console.log("Q8", getProductsByPriceRange(products, 19.99, 59.99));
