@@ -141,8 +141,8 @@ console.log("Q5", removeMenuItemById(menu, 306));
 function listMenuItemNamesByCategory(
   menu: MenuItem[],
   category: string
-): MenuItem[] {
-  return menu.filter((m) => m.category === category);
+): string[] {
+  return menu.filter((m) => m.category === category).map((m) => m.name);
 }
 
 console.log("Q6", listMenuItemNamesByCategory(menu, "Main Course"));
@@ -154,7 +154,17 @@ console.log("Q6", listMenuItemNamesByCategory(menu, "Main Course"));
  - Returns the menu item with the lowest price
 *************************************/
 
-// console.log(getCheapestMenuItem(menu));
+function getCheapestMenuItem(menu: MenuItem[]): MenuItem {
+  let cheapest = menu[0];
+  for (const m of menu) {
+    if (m.price < cheapest.price) {
+      cheapest = m;
+    }
+  }
+  return cheapest;
+}
+
+console.log("Q7", getCheapestMenuItem(menu));
 
 /*************************************
  ✅ Question 8: 🌶️🌶️🌶️
@@ -167,9 +177,11 @@ function getMenuItemsByIngredient(
   menu: MenuItem[],
   ingredient: string
 ): string[] {
-  return menu
-    .filter((m) => m.ingredients[2] === ingredient)
-    .map((menu) => menu.name);
+  let matches = menu
+    .filter((m) => m.ingredients.includes(ingredient))
+    .map((m) => m.name);
+
+  return matches;
 }
 
-console.log(getMenuItemsByIngredient(menu, "Parmesan"));
+console.log("Q8", getMenuItemsByIngredient(menu, "Parmesan"));
