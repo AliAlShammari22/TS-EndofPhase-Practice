@@ -54,7 +54,19 @@ console.log("Q1", getSortedEmployeesBySalary("Engineering"));
 - If no employee is found, return undefined
 **************************************************************/
 
-// console.log(promoteEmployee(102, 500));
+function promoteEmployee(
+  employeeId: number,
+  amount: number
+): Employee | undefined {
+  return employees
+    .filter((e) => e.id === employeeId)
+    .map((e) => ({
+      ...e,
+      salary: e.salary + amount,
+    }))[0];
+}
+
+console.log("Q2", promoteEmployee(102, 550));
 
 /**************************************************************
 ✅ Question 3: 🌶️
@@ -63,7 +75,17 @@ Create a function `getHighestPaidEmployee` that:
 - Returns the employee with the highest salary
 **************************************************************/
 
-// console.log(getHighestPaidEmployee(employees)); // Charlie
+function getHighestPaidEmployee(employees: Employee[]): Employee {
+  let highest = employees[0];
+  for (const m of employees) {
+    if (m.salary > highest.salary) {
+      highest = m;
+    }
+  }
+  return highest;
+}
+
+console.log("Q3", getHighestPaidEmployee(employees)); // Charlie
 
 /**************************************************************
 ✅ Q4) filterBySalaryRange(min: number, max: number):
@@ -71,7 +93,13 @@ Create a function `getHighestPaidEmployee` that:
 - Sorted in ascending order of salary
 **************************************************************/
 
-// console.log(filterBySalaryRange(5000, 7100));
+function filterBySalaryRange(min: number, max: number): Employee[] {
+  let bySalary = employees
+    .filter((m) => m.salary >= min && m.salary <= max)
+    .sort((a, b) => a.salary - b.salary);
+  return bySalary;
+}
+console.log("Q4", filterBySalaryRange(5000, 6900));
 
 /**************************************************************
 ✅ Question 5: 🌶️🌶️🌶️
@@ -88,4 +116,20 @@ Example output:
 }
 **************************************************************/
 
-// console.log(groupEmployeesByDepartment(employees));
+function groupEmployeesByDepartment(employees: Employee[]): {
+  Engineering: string[];
+  Marketing: string[];
+  HR: string[];
+} {
+  let Engineering = employees
+    .filter((m) => m.department === "Engineering")
+    .map((m) => m.name);
+  let Marketing = employees
+    .filter((m) => m.department === "Marketing")
+    .map((m) => m.name);
+  let HR = employees.filter((m) => m.department === "HR").map((m) => m.name);
+
+  return { Engineering, Marketing, HR };
+}
+
+console.log("Q5", groupEmployeesByDepartment(employees));
